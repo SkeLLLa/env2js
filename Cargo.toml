@@ -4,12 +4,11 @@ version = "1.0.1"
 authors = ["Alexander Kureniov <928021-m03geek@users.noreply.gitlab.com>"]
 edition = "2018"
 license = "MIT"
-license-file = "LICENSE"
 description = "A tool for creating js/json files with env vatiables"
 readme = "README.md"
 homepage = "https://github.com/SkeLLLa/env2js"
 repository = "https://github.com/SkeLLLa/env2js"
-keywords = ["cli", "env", "convert", "javascript", "json", "react"]
+keywords = ["cli", "env", "convert", "javascript", "json"]
 categories = ["command-line-utilities"]
 
 [profile.release]
