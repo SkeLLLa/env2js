@@ -1,5 +1,12 @@
 # env2js
-Converts current env to js/json.
+Converts current env to js/json. Supports reading from `.env` files.
+
+- [env2js](#env2js)
+  - [Usage](#usage)
+  - [Versions](#versions)
+    - [Linux](#linux)
+    - [Windows](#windows)
+  - [License](#license)
 
 ## Usage
 
@@ -34,6 +41,18 @@ Will result in following file:
 ```js
 window.env = {"FOO":"bar"}
 ```
+
+## Versions
+
+### Linux
+
+* env2js - simple build, without size optimizations
+* env2js.min - build with stripped symbols
+* env2js.nano - packed build with upx (seems upx on ubuntu is kinda broken, so this binary may be broken too)
+
+### Windows
+
+* env2js.exe - windows build
 
 ## License
 
