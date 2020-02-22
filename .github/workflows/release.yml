@@ -54,18 +54,38 @@ jobs:
         with:
           command: build
           args: --release
+      - name: Add file
+        uses: xresloader/upload-to-github-release@v1.1.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          file: 'target/release/env2js'
+          tags: true
+          overwrite: true
+          draft: false
       - name: Copy build
         run: cp target/release/env2js target/release/env2js.min
       - name: Strip symbols
         run: strip target/release/env2js.min
-      - name: Pack executable
-        run: upx-ucl --best target/release/env2js.min -o target/release/env2js.nano
-      - name: Release
+      - name: Add file
         uses: xresloader/upload-to-github-release@v1.1.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          file: 'target/release/env2js;target/release/env2js.min;target/release/env2js.nano'
+          file: 'target/release/env2js.min'
           tags: true
           overwrite: true
           draft: false
+          update_latest_release: true
+      - name: Pack executable
+        run: upx-ucl --best target/release/env2js.min -o target/release/env2js.nano
+      - name: Add file
+        uses: xresloader/upload-to-github-release@v1.1.0
+        with:
+          file: 'target/release/env2js.nano'
+          tags: true
+          overwrite: true
+          draft: false
+          update_latest_release: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
