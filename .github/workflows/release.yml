@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install deps
-        run: apt install upx-ucl binutils
+        run: sudo apt install upx-ucl binutils
       - name: Build
         run: cargo build --release
       - name: Copy build
