@@ -5,24 +5,34 @@ on:
     tags:
       - 'v*.*.*'
 
-jobs: 
+jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2 
+      - uses: actions/checkout@v2
+      - name: Install deps
+        run: apt install upx-ucl binutils
       - name: Build
         run: cargo build --release
+      - name: Minify
+        run:
+          - cp target/release/env2js target/release/env2js.min
+          - strip target/release/env2js.min
+          - upx-ucl target/release/env2js.min
       - uses: actions/upload-artifact@v1
         with:
           name: env2js
           path: target/release/env2js
+      - uses: actions/upload-artifact@v1
+        with:
+          name: env2js.min
+          path: target/release/env2js.min
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
             target/release/env2js
+            target/release/env2js.min
             LICENSE
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
-    
