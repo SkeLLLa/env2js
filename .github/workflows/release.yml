@@ -8,11 +8,13 @@ on:
 jobs:
   release-ready:
     name: Release ready
-    needs: ['release-win', 'release-linux']
+    needs: [release-win, release-linux]
     runs-on: ubuntu-latest
     steps:
       - name: Release
         uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   release-win:
     name: Release Windows
@@ -36,7 +38,6 @@ jobs:
           draft: true
           files: |
             target/release/env2js.exe
-            LICENSE
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   release-linux:
