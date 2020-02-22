@@ -6,16 +6,13 @@ on:
       - 'v*.*.*'
 
 jobs:
-  release:
-    name: Release
+  release-ready:
+    name: Release ready
     needs: ['release-win', 'release-linux']
     runs-on: ubuntu-latest
     steps:
-      - continue-on-error: false
       - name: Release
         uses: softprops/action-gh-release@v1
-        with:
-          draft: false
 
   release-win:
     name: Release Windows
