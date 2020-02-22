@@ -7,9 +7,9 @@ use std::env;
 fn main() {
     let output_types = ["js", "json"];
 
-    let matches = App::new("env-to-json")
+    let matches = App::new("env2js")
         .version("1.0")
-        .author("m03geek")
+        .author("m03geek 2020")
         .about("Converts your env to js or json file")
         .arg(
             Arg::with_name("config")
