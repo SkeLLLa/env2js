@@ -60,7 +60,7 @@ jobs:
       - name: Release
         uses: xresloader/upload-to-github-release@v1.1.0
         with:
-          file: 'target/release/env2js,target/release/env2js.min,target/release/env2js.nano'
+          file: 'target/release/env2js;target/release/env2js.min;target/release/env2js.nano'
           tags: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
