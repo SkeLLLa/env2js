@@ -6,7 +6,7 @@ Converts current env to js/json.
 All commands are available via `env2js --help`
 
 ```
->$ env2js--help
+>$ env2js --help
 
 Converts your env to js or json file
 
@@ -27,5 +27,14 @@ OPTIONS:
 You can use it for making env variables available in runtime of your react app.
 
 ```
->$ env2js -g env -p REACT_APP -t js > env.js
+>$ REACT_APP_FOO=bar env2js -g env -p REACT_APP_ -t js > env.js
 ```
+
+Will result in following file:
+```js
+window.env = {"FOO":"bar"}
+```
+
+## License
+
+[MIT](./LICENSE)
