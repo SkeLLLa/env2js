@@ -6,34 +6,55 @@ on:
       - 'v*.*.*'
 
 jobs:
-  release:
+  release-win:
+    name: Relase Windows
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: x86_64-pc-windows-gnu
+          override: true
+      - uses: actions-rs/cargo@v1
+        name: build
+        with:
+          use-cross: true
+          command: build
+          args: --release --target x86_64-pc-windows-gnu
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            target/release/env2js.exe
+            LICENSE
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  release-linux:
+    name: Release Linux
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Install deps
         run: sudo apt install upx-ucl binutils
-      - name: Build
-        run: cargo build --release
+      - uses: actions-rs/cargo@v1
+        name: build
+        with:
+          command: build
+          args: --release
       - name: Copy build
         run: cp target/release/env2js target/release/env2js.min
       - name: Strip symbols
         run: strip target/release/env2js.min
       - name: Pack executable
-        run: upx-ucl target/release/env2js.min
-      - uses: actions/upload-artifact@v1
-        with:
-          name: env2js
-          path: target/release/env2js
-      - uses: actions/upload-artifact@v1
-        with:
-          name: env2js.min
-          path: target/release/env2js.min
+        run: upx-ucl --best target/release/env2js.min -o target/release/env2js.nano
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
             target/release/env2js
             target/release/env2js.min
+            target/release/env2js.nano
             LICENSE
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
