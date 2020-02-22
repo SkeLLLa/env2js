@@ -6,15 +6,15 @@ on:
       - 'v*.*.*'
 
 jobs:
-  release-ready:
-    name: Release ready
-    needs: [release-win, release-linux]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # release-ready:
+  #   name: Release ready
+  #   needs: [release-win, release-linux]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Release
+  #       uses: softprops/action-gh-release@v1
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   release-win:
     name: Release Windows
@@ -33,11 +33,10 @@ jobs:
           command: build
           args: --release --target x86_64-pc-windows-gnu
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: xresloader/upload-to-github-release@v1.1.0
         with:
-          draft: true
-          files: |
-            target/release/env2js.exe
+          file: 'target/release/env2js.exe'
+          tags: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   release-linux:
@@ -59,13 +58,9 @@ jobs:
       - name: Pack executable
         run: upx-ucl --best target/release/env2js.min -o target/release/env2js.nano
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: xresloader/upload-to-github-release@v1.1.0
         with:
-          draft: true
-          files: |
-            target/release/env2js
-            target/release/env2js.min
-            target/release/env2js.nano
-            LICENSE
+          file: 'target/release/env2js,target/release/env2js.min,target/release/env2js.nano'
+          tags: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
