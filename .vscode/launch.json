@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch",
+      "type": "lldb",
+      "request": "launch",
+      "preLaunchTask": "cargo:build",
+      "program": "${workspaceRoot}/target/debug/env-to-json",
+      "args": [],
+      "cwd": "${workspaceRoot}"
+    }
+  ]
+}
