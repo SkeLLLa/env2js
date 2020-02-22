@@ -32,14 +32,14 @@ jobs:
           use-cross: true
           command: build
           args: --release --target x86_64-pc-windows-gnu
-      - run: ls -la target/x86_64-pc-windows-gnu/release
       - name: Release
         uses: xresloader/upload-to-github-release@v1.1.0
         with:
           file: 'target/x86_64-pc-windows-gnu/release/env2js.exe'
           tags: true
           overwrite: true
-          verbose: true
+          draft: false
+          update_latest_release: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   release-linux:
@@ -66,5 +66,6 @@ jobs:
           file: 'target/release/env2js;target/release/env2js.min;target/release/env2js.nano'
           tags: true
           overwrite: true
+          draft: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
