@@ -14,11 +14,12 @@ jobs:
         run: apt install upx-ucl binutils
       - name: Build
         run: cargo build --release
-      - name: Minify
-        run:
-          - cp target/release/env2js target/release/env2js.min
-          - strip target/release/env2js.min
-          - upx-ucl target/release/env2js.min
+      - name: Copy build
+        run: cp target/release/env2js target/release/env2js.min
+      - name: Strip symbols
+        run: strip target/release/env2js.min
+      - name: Pack executable
+        run: upx-ucl target/release/env2js.min
       - uses: actions/upload-artifact@v1
         with:
           name: env2js
