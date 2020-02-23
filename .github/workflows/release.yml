@@ -74,7 +74,7 @@ jobs:
       - name: Copy build
         run: cp env2js.musl env2js.musl.min
       - name: Strip symbols
-        run: musl-strip env2js.musl.min
+        run: strip env2js.musl.min
       - name: Add file
         uses: xresloader/upload-to-github-release@v1.1.0
         env:
