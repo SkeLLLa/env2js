@@ -46,6 +46,7 @@ jobs:
   # x86_64-unknown-linux-musl
     name: Release Linux MUSL
     runs-on: ubuntu-latest
+    container: messense/rust-musl-cross:x86_64-musl
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
@@ -53,7 +54,7 @@ jobs:
           toolchain: stable
           target: x86_64-unknown-linux-musl
           override: true
-          use-cross: true
+          use-cross: false
       - uses: actions-rs/cargo@v1
         name: build
         with:
@@ -74,7 +75,7 @@ jobs:
       - name: Copy build
         run: cp env2js.musl env2js.musl.min
       - name: Strip symbols
-        run: strip env2js.musl.min
+        run: musl-strip env2js.musl.min
       - name: Add file
         uses: xresloader/upload-to-github-release@v1.1.0
         env:
