@@ -34,14 +34,56 @@ jobs:
           args: --release --target x86_64-pc-windows-gnu
       - name: Release
         uses: xresloader/upload-to-github-release@v1.1.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           file: 'target/x86_64-pc-windows-gnu/release/env2js.exe'
           tags: true
           overwrite: true
           draft: false
           update_latest_release: true
+  release-linux-musl:
+  # x86_64-unknown-linux-musl
+    name: Release Linux MUSL
+    runs-on: messense/rust-musl-cross:x86_64-musl
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: x86_64-unknown-linux-musl
+          override: true
+      - uses: actions-rs/cargo@v1
+        name: build
+        with:
+          command: build
+          args: --release --target x86_64-unknown-linux-musl
+      - name: Copy build
+        run: cp target/x86_64-unknown-linux-musl/release/env2js env2js.musl
+      - name: Release
+        uses: xresloader/upload-to-github-release@v1.1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          file: 'env2js.musl'
+          tags: true
+          overwrite: true
+          draft: false
+          update_latest_release: true
+      - name: Copy build
+        run: cp env2js.musl env2js.musl.min
+      - name: Strip symbols
+        run: musl-strip env2js.musl.min
+      - name: Add file
+        uses: xresloader/upload-to-github-release@v1.1.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          file: 'env2js.musl.min'
+          tags: true
+          overwrite: true
+          draft: false
+          update_latest_release: true
   release-linux:
     name: Release Linux
     runs-on: ubuntu-latest
@@ -54,38 +96,29 @@ jobs:
         with:
           command: build
           args: --release
+      - name: Copy build
+        run: cp target/release/env2js env2js.glibc
       - name: Add file
         uses: xresloader/upload-to-github-release@v1.1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          file: 'target/release/env2js'
+          file: 'env2js.glibc'
           tags: true
           overwrite: true
           draft: false
       - name: Copy build
-        run: cp target/release/env2js target/release/env2js.min
+        run: cp env2js.glibc env2js.glibc.min
       - name: Strip symbols
-        run: strip target/release/env2js.min
+        run: strip env2js.glibc.min
       - name: Add file
         uses: xresloader/upload-to-github-release@v1.1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          file: 'target/release/env2js.min'
+          file: 'env2js.glibc.min'
           tags: true
           overwrite: true
           draft: false
           update_latest_release: true
-      - name: Pack executable
-        run: upx-ucl --best target/release/env2js.min -o target/release/env2js.nano
-      - name: Add file
-        uses: xresloader/upload-to-github-release@v1.1.0
-        with:
-          file: 'target/release/env2js.nano'
-          tags: true
-          overwrite: true
-          draft: false
-          update_latest_release: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
