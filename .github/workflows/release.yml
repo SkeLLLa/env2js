@@ -87,7 +87,7 @@ jobs:
           draft: false
           update_latest_release: true
   release-linux:
-    name: Release Linux
+    name: Release Linux Glibc
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

@@ -3,8 +3,11 @@ Converts current env to js/json. Supports reading from `.env` files.
 
 - [env2js](#env2js)
   - [Usage](#usage)
+    - [Docker](#docker)
   - [Versions](#versions)
     - [Linux](#linux)
+      - [MUSL (alpine)](#musl-alpine)
+      - [Glibc (ubuntu, debian)](#glibc-ubuntu-debian)
     - [Windows](#windows)
   - [License](#license)
 
@@ -42,13 +45,28 @@ Will result in following file:
 window.env = {"FOO":"bar"}
 ```
 
+### Docker
+
+```
+curl -L https://github.com/SkeLLLa/env2js/releases/download/v1.0.2/env2js.musl.min -s -o /usr/bin/env2js \
+&& chmod a+x /usr/bin/env2js
+```
+
+Change `musl` to `glibc` if you use glibc based linux distros (like ubuntu, debian).
+
 ## Versions
 
 ### Linux
 
-* env2js - simple build, without size optimizations
-* env2js.min - build with stripped symbols
-* env2js.nano - packed build with upx (seems upx on ubuntu is kinda broken, so this binary may be broken too)
+#### MUSL (alpine)
+
+* env2js.musl - simple build, without size optimizations
+* env2js.musl.min - build with stripped debug symbols
+
+#### Glibc (ubuntu, debian)
+
+* env2js.glibc - simple build, without size optimizations
+* env2js.glibc.min - build with stripped debug symbols
 
 ### Windows
 
