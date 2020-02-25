@@ -56,6 +56,8 @@ Change `musl` to `glibc` if you use glibc based linux distros (like ubuntu, debi
 
 ## Versions
 
+See "Releases" for binaries.
+
 ### Linux
 
 #### MUSL (alpine)
